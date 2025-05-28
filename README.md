@@ -35,7 +35,7 @@ The platform also features a basic Admin Dashboard, where the admin can add, edi
 Clone the repo and run the development server:
 
 ```bash
-git clone https://github.com/NikitaGhadge005/demo.git
+git clone https://github.com/NikitaGhadge005/mini-shop-react.git
 cd demo
 npm install
 npm run dev
