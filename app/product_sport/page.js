@@ -19,18 +19,16 @@ const ProductPage = () => {
   }, []);
 
   const handleAddToWishlist = (product) => {
-  const existing = JSON.parse(localStorage.getItem('wishlist')) || [];
-  const alreadyAdded = existing.find(item => item.productName === product.productName);
-  if (!alreadyAdded) {
-    const updated = [...existing, product];
-    localStorage.setItem('wishlist', JSON.stringify(updated));
-    alert("Added to wishlist!");
-  } else {
-    alert("Already in wishlist.");
-  }
-};
-
-
+    const existing = JSON.parse(localStorage.getItem('wishlist')) || [];
+    const alreadyAdded = existing.find(item => item.productName === product.productName);
+    if (!alreadyAdded) {
+      const updated = [...existing, product];
+      localStorage.setItem('wishlist', JSON.stringify(updated));
+      alert("Added to wishlist!");
+    } else {
+      alert("Already in wishlist.");
+    }
+  };
 
   const categories = ['All', ...new Set(products.map((p) => p.category))];
 
@@ -83,17 +81,19 @@ const ProductPage = () => {
             {/* Tabs */}
             <div className="flex flex-wrap gap-3">
               {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`px-4 py-2 text-sm rounded-md font-medium transition ${
-                    selectedCategory === cat
-                      ? 'bg-[#508285] text-white'
-                      : 'text-gray-800 hover:bg-gray-200'
-                  }`}
-                >
-                  {cat}
-                </button>
+                cat !== 'All' || products.length > 0 ? (
+                  <button
+                    key={cat}
+                    onClick={() => setSelectedCategory(cat)}
+                    className={`px-4 py-2 text-sm rounded-md font-medium transition ${
+                      selectedCategory === cat
+                        ? 'bg-[#508285] text-white'
+                        : 'text-gray-800 hover:bg-gray-200'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ) : null
               ))}
             </div>
           </div>
@@ -108,7 +108,7 @@ const ProductPage = () => {
                   setSelectedProduct(product);
                   setShowModal(true);
                 }}
-               onAddToWishlist={() => handleAddToWishlist(product)}
+                onAddToWishlist={() => handleAddToWishlist(product)}
               />
             ))}
           </div>
@@ -117,8 +117,7 @@ const ProductPage = () => {
 
       {/* Modal */}
       {showModal && selectedProduct && (
-        <div className="fixed inset-0 z-50 bg-red-200 bg-opacity-50 flex justify-center items-center"   style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
-          
+        <div className="fixed inset-0 z-50 bg-opacity-50 flex justify-center items-center" style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
           <div className="bg-white w-full max-w-2xl mx-4 md:mx-auto rounded shadow-lg p-6 relative">
             <button
               className="absolute top-2 right-2 text-gray-600 hover:text-red-500 text-xl"
@@ -140,12 +139,12 @@ const ProductPage = () => {
                 <p className="text-lg font-bold text-green-600">
                   ₹{selectedProduct.price}
                 </p>
-                             <button
-  onClick={() => handleAddToWishlist(selectedProduct)}
-  className="bg-blue-600 text-white font-semibold px-6 py-2 rounded w-40 text-sm hover:bg-gray-800 hover:text-white"
->
-  + Add to Wishlist
-</button>
+                <button
+                  onClick={() => handleAddToWishlist(selectedProduct)}
+                  className="bg-blue-600 text-white font-semibold px-6 py-2 rounded w-40 text-sm hover:bg-gray-800 hover:text-white"
+                >
+                  + Add to Wishlist
+                </button>
               </div>
             </div>
           </div>
